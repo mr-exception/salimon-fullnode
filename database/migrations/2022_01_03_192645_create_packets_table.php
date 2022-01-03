@@ -14,8 +14,15 @@ class CreatePacketsTable extends Migration
     public function up()
     {
         Schema::create('packets', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+            $table->uuid('id')->primary();
+            $table->uuid('msg_id')->index();
+            $table->smallInteger('msg_count');
+            $table->smallInteger('position');
+            $table->string('data', 1024);
+            $table->string('src', 128)->index();
+            $table->string('dst', 128)->index();
+            $table->boolean('fetched')->default(false);
+            $table->integer('date');
         });
     }
 
