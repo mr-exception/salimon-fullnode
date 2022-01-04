@@ -7,5 +7,5 @@ Route::prefix("/packets")
   ->name("packets.")
   ->group(function () {
     Route::get("/fetch", [PacketsController::class, "fetch"])->name("fetch");
-    Route::put("/send", [PacketsController::class, "send"])->name("send");
+    Route::post("/send", [PacketsController::class, "send"])->name("send");
   });
