@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Meta;
 use App\Models\Transaction;
+use Exception;
 use Illuminate\Console\Command;
 use Jcsofts\LaravelEthereum\Facade\Ethereum;
 use Jcsofts\LaravelEthereum\Lib\EthereumTransaction;
@@ -40,15 +40,15 @@ class CheckEthereum extends Command
    */
   public function handle()
   {
-    $max_fetch = intval(Meta::whereSlug("fetch_per_update")->first()->data);
-    $last_block = intval(Meta::whereSlug("last_block_number")->first()->data);
+    $max_fetch = env("FETCH_PER_UPDATE");
+    $last_block = env("LAST_BLOCK_NUMBER");
 
     $this->info("last block number: $last_block");
     $this->info("max fetch count: $max_fetch");
 
     $current_block = Ethereum::eth_blockNumber(true);
 
-    if ($last_block === "none") {
+    if ($last_block === 0) {
       $block = Ethereum::eth_getBlockByNumber($current_block);
       $transactions = $block->transactions;
       foreach ($transactions as $transaction) {
@@ -59,33 +59,34 @@ class CheckEthereum extends Command
           $record->price = hexdec($transaction->value);
           $record->amount = intval(hexdec($transaction->value) / 3600);
           $record->save();
-          $this->info("[" . $transaction->value . "] from " . $transaction->from);
+          $this->info("[" . $record->price . " = " . $record->amount . "hrs] from " . $transaction->from . " on block " . hexdec($block->number));
         }
       }
-      Meta::whereSlug("last_block_number")->update(["data" => $current_block]);
+      setEnv("LAST_BLOCK_NUMBER", $current_block);
     } else {
-      for ($i = 0; $i < $max_fetch && $last_block + $i + 1 <= $current_block; $i++) {
-        $block = Ethereum::eth_getBlockByNumber($last_block + $i + 1);
-        $transactions = $block->transactions;
-        foreach ($transactions as $transaction) {
-          if (strtolower($transaction->to) === strtolower(env("ETH_ADDRESS"))) {
-            $record = new Transaction();
-            $record->address = $transaction->from;
-            $record->date = time();
-            $record->price = hexdec($transaction->value);
-            $record->amount = intval(hexdec($transaction->value) / 3600);
-            $record->save();
-            $this->info("[" . $transaction->value . "] from " . $transaction->from);
+      $i = 0;
+      $last_fetched_block = $last_block;
+      try {
+        for ($i; $i < $max_fetch && $last_block + $i + 1 <= $current_block; $i++) {
+          $block = Ethereum::eth_getBlockByNumber($last_block + $i + 1);
+          $transactions = $block->transactions;
+          foreach ($transactions as $transaction) {
+            if (strtolower($transaction->to) === strtolower(env("ETH_ADDRESS"))) {
+              $record = new Transaction();
+              $record->address = $transaction->from;
+              $record->date = time();
+              $record->price = hexdec($transaction->value);
+              $record->amount = intval(hexdec($transaction->value) / 3600);
+              $record->save();
+              $this->info("[" . $record->price . " = " . $record->amount . "hrs] from " . $transaction->from . " on block " . hexdec($block->number));
+            }
           }
+          $last_fetched_block = hexdec($block->number);
         }
-        Meta::whereSlug("last_block_number")->update(["data" => hexdec($block->number)]);
+      } catch (Exception $e) {
+        $this->error($e->getMessage());
       }
-    }
-
-    for ($i = 0; $i < 25; $i++) {
-      $value = rand(1, 100) * 3600;
-      $transaction = new EthereumTransaction("0xd1dDad0C7eA4E990a66b7910688c39694712AE00", env("ETH_ADDRESS"), $value);
-      Ethereum::eth_sendTransaction($transaction);
+      setEnv("LAST_BLOCK_NUMBER", $last_fetched_block);
     }
     return 0;
   }
