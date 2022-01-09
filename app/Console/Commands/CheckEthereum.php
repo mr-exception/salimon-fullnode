@@ -52,8 +52,7 @@ class CheckEthereum extends Command
       $block = Ethereum::eth_getBlockByNumber($current_block);
       $transactions = $block->transactions;
       foreach ($transactions as $transaction) {
-        $this->info("pt");
-        if (strtolower($transaction->to) === strtolower("0xAE11236A89455A8a7cE5b6212AD513ea8f82B298")) {
+        if (strtolower($transaction->to) === strtolower(env("ETH_ADDRESS"))) {
           $record = new Transaction();
           $record->address = $transaction->from;
           $record->date = time();
@@ -69,8 +68,7 @@ class CheckEthereum extends Command
         $block = Ethereum::eth_getBlockByNumber($last_block + $i + 1);
         $transactions = $block->transactions;
         foreach ($transactions as $transaction) {
-          $this->info("pt");
-          if (strtolower($transaction->to) === strtolower("0xAE11236A89455A8a7cE5b6212AD513ea8f82B298")) {
+          if (strtolower($transaction->to) === strtolower(env("ETH_ADDRESS"))) {
             $record = new Transaction();
             $record->address = $transaction->from;
             $record->date = time();
@@ -86,7 +84,7 @@ class CheckEthereum extends Command
 
     for ($i = 0; $i < 25; $i++) {
       $value = rand(1, 100) * 3600;
-      $transaction = new EthereumTransaction("0x533623adA667fE96672150E7A8452dDea6899320", "0xAE11236A89455A8a7cE5b6212AD513ea8f82B298", $value);
+      $transaction = new EthereumTransaction("0xd1dDad0C7eA4E990a66b7910688c39694712AE00", env("ETH_ADDRESS"), $value);
       Ethereum::eth_sendTransaction($transaction);
     }
     return 0;
