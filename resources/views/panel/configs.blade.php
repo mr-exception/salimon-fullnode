@@ -1,5 +1,5 @@
-@extends('panel.layout')
-@section('title', 'configs')
+@extends('layout')
+@section('title', 'Configs')
 @section('content')
 <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
