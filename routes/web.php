@@ -19,16 +19,30 @@ Route::get("/", function () {
   return view("welcome");
 })->name("welcome");
 
-Route::prefix("/configs")
-  ->name("configs.")
-  ->group(function () {
-    Route::get("/", [ConfigsController::class, "Show"])->name("show");
-    Route::post("/", [ConfigsController::class, "update"])->name("update");
-  });
+Route::middleware("auth")->group(function () {
+  Route::prefix("/configs")
+    ->name("configs.")
+    ->group(function () {
+      Route::get("/", [ConfigsController::class, "Show"])->name("show");
+      Route::post("/", [ConfigsController::class, "update"])->name("update");
+    });
+});
 
 Route::prefix("/login")
   ->name("login.")
   ->group(function () {
     Route::get("/", [AuthController::class, "loginGet"])->name("get");
     Route::post("/", [AuthController::class, "loginSubmit"])->name("submit");
+  });
+
+Route::prefix("/auth")
+  ->name("auth.")
+  ->group(function () {
+    Route::prefix("/change-password")
+      ->name("change_password.")
+      ->group(function () {
+        Route::get("/", [AuthController::class, "changePasswordGet"])->name("get");
+        Route::post("/", [AuthController::class, "changePasswordSubmit"])->name("submit");
+      });
+    Route::get("/logout", [AuthController::class, "logout"])->name("logout");
   });
