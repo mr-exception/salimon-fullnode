@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Panel\ConfigsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get("/", function () {
+  return view("welcome");
 });
+
+Route::prefix("/configs")
+  ->name("configs.")
+  ->group(function () {
+    Route::get("/", [ConfigsController::class, "Show"])->name("show");
+    Route::post("/", [ConfigsController::class, "update"])->name("update");
+  });
