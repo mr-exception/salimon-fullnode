@@ -11,5 +11,5 @@ class Transaction extends Model
   use HasFactory, UsesUuid;
   protected $primary = "id";
   protected $table = "transactions";
-  protected $fillable = ["address", "date", "amount", "price", "date"];
+  protected $fillable = ["address", "date", "amount", "price"];
 }

@@ -15,7 +15,7 @@ class CreateMetasTable extends Migration
   {
     Schema::create("metas", function (Blueprint $table) {
       $table->uuid("id")->primary();
-      $table->string("slug", 16);
+      $table->string("slug", 32);
       $table->string("data", 256);
       $table->timestamps();
     });
