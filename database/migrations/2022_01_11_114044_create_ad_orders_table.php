@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransactionsTable extends Migration
+class CreateAdOrdersTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,12 +13,14 @@ class CreateTransactionsTable extends Migration
    */
   public function up()
   {
-    Schema::create("transactions", function (Blueprint $table) {
+    Schema::create("ad_orders", function (Blueprint $table) {
       $table->uuid("id")->primary();
-      $table->string("address", 64)->index();
+      $table->string("address", 64);
+      $table->unsignedSmallInteger("status")->default(1);
       $table->unsignedBigInteger("price");
-      $table->unsignedInteger("amount");
-      $table->unsignedInteger("date");
+      $table->unsignedInteger("count");
+      $table->string("data_path", 128);
+      $table->unsignedInteger("size");
       $table->timestamps();
     });
   }
@@ -30,6 +32,6 @@ class CreateTransactionsTable extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists("transactions");
+    Schema::dropIfExists("ad_orders");
   }
 }

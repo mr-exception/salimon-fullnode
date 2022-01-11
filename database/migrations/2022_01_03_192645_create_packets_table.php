@@ -18,7 +18,7 @@ class CreatePacketsTable extends Migration
       $table->uuid("msg_id")->index();
       $table->smallInteger("msg_count");
       $table->smallInteger("position");
-      $table->string("data", 1024);
+      $table->string("data_path", 128);
       $table->string("src", 128)->index();
       $table->string("dst", 128)->index();
       $table->timestamps();
