@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ContractsController;
 use App\Http\Controllers\PacketsController;
 use App\Http\Controllers\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
@@ -17,5 +18,12 @@ Route::middleware("strToLower")->group(function () {
     ->name("subscriptions.")
     ->group(function () {
       Route::get("/balance", [SubscriptionsController::class, "checkWallet"])->name("checkWallet");
+    });
+
+  Route::prefix("/contracts")
+    ->name("contracts.")
+    ->group(function () {
+      Route::post("/create", [ContractsController::class, "create"])->name("create");
+      Route::get("/list", [ContractsController::class, "list"])->name("list");
     });
 });

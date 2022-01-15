@@ -11,7 +11,7 @@ class Contract extends Model
   use HasFactory, UsesUuid;
   protected $primary = "id";
   protected $table = "contracts";
-  protected $fillable = ["address", "price", "file_path", "count", "status"];
+  protected $fillable = ["address", "price", "file_path", "count", "typoe", "status"];
 
   public const PENDING = 1;
   public const PAID = 2;
@@ -23,8 +23,21 @@ class Contract extends Model
     return __("statics.contracts.status." . $this->state);
   }
 
+  public const ADVERTISE = 1;
+  public const PLAIN_REQUEST = 2;
+
+  public function getTypeStrAttribute()
+  {
+    return __("statics.contracts.type." . $this->type);
+  }
+
   public function reports()
   {
     return $this->hasMany(ContractReport::class, "contract_id");
+  }
+
+  public function fileUrl()
+  {
+    return url($this->file_path);
   }
 }
