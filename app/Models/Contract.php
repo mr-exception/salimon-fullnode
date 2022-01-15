@@ -6,12 +6,12 @@ use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AdOrder extends Model
+class Contract extends Model
 {
   use HasFactory, UsesUuid;
   protected $primary = "id";
-  protected $table = "ad_orders";
-  protected $fillable = ["address", "status", "price", "count", "data_path", "size"];
+  protected $table = "contracts";
+  protected $fillable = ["address", "price", "file_path", "count", "status"];
 
   public const PENDING = 1;
   public const PAID = 2;
@@ -20,11 +20,11 @@ class AdOrder extends Model
 
   public function getStatusStrAttribute()
   {
-    return __("statics.ad_order.status." . $this->status);
+    return __("statics.contracts.status." . $this->state);
   }
 
   public function reports()
   {
-    return $this->hasMany(AdOrderReport::class, "order_id");
+    return $this->hasMany(ContractReport::class, "contract_id");
   }
 }
