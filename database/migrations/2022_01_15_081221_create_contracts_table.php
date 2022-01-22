@@ -17,9 +17,9 @@ class CreateContractsTable extends Migration
       $table->uuid("id")->primary();
       $table->string("address", 64)->index();
       $table->string("file_path", 128);
-      $table->unsignedInteger("total_price");
-      $table->unsignedInteger("comission");
-      $table->unsignedInteger("fee");
+      $table->unsignedBigInteger("total_price");
+      $table->unsignedBigInteger("comission");
+      $table->unsignedBigInteger("fee");
       $table->unsignedSmallInteger("count");
       $table->unsignedSmallInteger("type");
       $table->unsignedSmallInteger("status")->default(1);

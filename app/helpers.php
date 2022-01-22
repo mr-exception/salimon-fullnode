@@ -12,3 +12,10 @@ if (!function_exists("setEnv")) {
     }
   }
 }
+
+if (!function_exists("gweiToEth")) {
+  function gweiToEth($value)
+  {
+    return round($value / 1000000000000000000, 12);
+  }
+}

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Panel\AuthController;
 use App\Http\Controllers\Panel\ConfigsController;
+use App\Http\Controllers\PublicPagesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,9 @@ Route::get("/", function () {
   return view("welcome");
 })->name("welcome");
 
+Route::middleware("strToLower")->group(function () {
+  Route::get("/address/{address}", [PublicPagesController::class, "address"])->name("address");
+});
 Route::middleware("auth")->group(function () {
   Route::prefix("/configs")
     ->name("configs.")

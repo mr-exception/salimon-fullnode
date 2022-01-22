@@ -16,9 +16,10 @@ class CreateTransactionsTable extends Migration
     Schema::create("transactions", function (Blueprint $table) {
       $table->uuid("id")->primary();
       $table->string("address", 64)->index();
-      $table->unsignedBigInteger("price");
-      $table->unsignedInteger("amount");
+      $table->unsignedSmallInteger("type")->index();
+      $table->unsignedBigInteger("amount");
       $table->unsignedInteger("date");
+      $table->string("description", 256)->nullable();
       $table->timestamps();
     });
   }

@@ -48,7 +48,7 @@ class CheckEthereum extends Command
 
     $current_block = Ethereum::eth_blockNumber(true);
 
-    if ($last_block === 0) {
+    if ($last_block === "0") {
       $block = Ethereum::eth_getBlockByNumber($current_block);
       $transactions = $block->transactions;
       foreach ($transactions as $transaction) {
@@ -56,12 +56,13 @@ class CheckEthereum extends Command
           $record = new Transaction();
           $record->address = $transaction->from;
           $record->date = time();
-          $record->price = hexdec($transaction->value);
-          $record->amount = intval(hexdec($transaction->value) / 3600);
+          $record->amount = hexdec($transaction->value);
+          $record->type = Transaction::IN;
           $record->save();
-          $this->info("[" . $record->price . " = " . $record->amount . "hrs] from " . $transaction->from . " on block " . hexdec($block->number));
+          $this->info("[" . $record->amount . " gwei] from " . $transaction->from . " on block " . hexdec($block->number));
         }
       }
+      $this->info("last fetched block: " . $current_block);
       setEnv("LAST_BLOCK_NUMBER", $current_block);
     } else {
       $i = 0;
@@ -75,10 +76,10 @@ class CheckEthereum extends Command
               $record = new Transaction();
               $record->address = $transaction->from;
               $record->date = time();
-              $record->price = hexdec($transaction->value);
-              $record->amount = intval(hexdec($transaction->value) / 3600);
+              $record->amount = hexdec($transaction->value);
+              $record->type = Transaction::IN;
               $record->save();
-              $this->info("[" . $record->price . " = " . $record->amount . "hrs] from " . $transaction->from . " on block " . hexdec($block->number));
+              $this->info("[" . $record->amount . " gwei] from " . $transaction->from . " on block " . hexdec($block->number));
             }
           }
           $last_fetched_block = hexdec($block->number);
@@ -86,6 +87,7 @@ class CheckEthereum extends Command
       } catch (Exception $e) {
         $this->error($e->getMessage());
       }
+      $this->info("last fetched block: " . $last_fetched_block);
       setEnv("LAST_BLOCK_NUMBER", $last_fetched_block);
     }
     return 0;
