@@ -11,7 +11,7 @@ class Contract extends Model
   use HasFactory, UsesUuid;
   protected $primary = "id";
   protected $table = "contracts";
-  protected $fillable = ["address", "price", "file_path", "count", "typoe", "status"];
+  protected $fillable = ["address", "price", "file_path", "count", "type", "total_price", "comission", "fee", "status"];
 
   public const PENDING = 1;
   public const PAID = 2;

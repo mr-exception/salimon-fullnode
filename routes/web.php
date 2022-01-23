@@ -21,7 +21,7 @@ Route::get("/", function () {
 })->name("welcome");
 
 Route::middleware("strToLower")->group(function () {
-  Route::get("/address/{address}", [PublicPagesController::class, "address"])->name("address");
+  Route::get("/balance/{address}", [PublicPagesController::class, "balance"])->name("balance");
 });
 Route::middleware("auth")->group(function () {
   Route::prefix("/configs")

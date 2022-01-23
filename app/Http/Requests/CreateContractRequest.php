@@ -27,7 +27,7 @@ class CreateContractRequest extends FormRequest
       "address" => "required|string|max:64",
       "file" => "required|file|max:1000",
       "fee" => "required|numeric|min:1000",
-      "count" => "required|numeric|min:1|max:9999",
+      "count" => "required|numeric|min:1|max:4000000000",
     ];
   }
 }

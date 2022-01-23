@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class PublicPagesController extends Controller
 {
-  public function address(Request $request, $address)
+  public function balance(Request $request, $address)
   {
     $address = strtolower($address);
     $balance = Transaction::getAddressBalance($address);
@@ -17,6 +17,7 @@ class PublicPagesController extends Controller
       "address" => $address,
       "balance" => $balance,
       "transactions" => $transactions
+        ->orderBy("date", "desc")
         ->offset(($request->input("page", 1) - 1) * 10)
         ->limit(10)
         ->get(),

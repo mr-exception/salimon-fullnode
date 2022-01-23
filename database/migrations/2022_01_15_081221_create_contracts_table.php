@@ -20,7 +20,7 @@ class CreateContractsTable extends Migration
       $table->unsignedBigInteger("total_price");
       $table->unsignedBigInteger("comission");
       $table->unsignedBigInteger("fee");
-      $table->unsignedSmallInteger("count");
+      $table->unsignedInteger("count");
       $table->unsignedSmallInteger("type");
       $table->unsignedSmallInteger("status")->default(1);
       $table->timestamps();

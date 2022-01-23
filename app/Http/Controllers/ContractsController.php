@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateContractRequest;
 use App\Http\Resources\ContractResource;
 use App\Models\Contract;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -12,14 +13,31 @@ class ContractsController extends Controller
 {
   public function create(CreateContractRequest $request)
   {
+    $fee = $request->fee;
+    $count = $request->count;
+    $comission = env("CONTRACT_COMMISION");
+    $total_price = $fee * $count + $comission;
+
+    $balance = Transaction::getAddressBalance($request->address);
+
+    if ($balance < $total_price) {
+      return abort(403, "you don't have enough balance");
+    }
+
     $contract = new Contract();
+    $contract->fill(["fee" => $fee, "total_price" => $total_price, "comission" => $comission, "type" => Contract::ADVERTISE]);
     $contract->count = $request->count;
     $contract->address = $request->address;
     $contract->file_path = Storage::disk("public")->put("/contracts", $request->file("file"));
-    $contract->fee = $request->fee;
-    $contract->comission = env("CONTRACT_COMMISION");
-    $contract->total_price = $contract->fee * $contract->count;
     $contract->save();
+
+    Transaction::create([
+      "address" => $request->address,
+      "amount" => $total_price,
+      "date" => time(),
+      "type" => Transaction::OUT,
+      "description" => "contract " . $contract->id,
+    ]);
     return ContractResource::make($contract);
   }
 
