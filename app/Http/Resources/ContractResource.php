@@ -13,8 +13,8 @@ class ContractResource extends Resource
       "fee" => $this->fee,
       "comission" => $this->comission,
       "total_price" => $this->total_price,
-      "type" => $this->type_str,
-      "status" => $this->status_str,
+      "type" => $this->type,
+      "status" => $this->status,
     ];
 
     return $this->withDates($data);

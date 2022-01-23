@@ -13,12 +13,13 @@ class ContractsController extends Controller
 {
   public function create(CreateContractRequest $request)
   {
+    $address = getAddress();
     $fee = $request->fee;
     $count = $request->count;
     $comission = env("CONTRACT_COMMISION");
     $total_price = $fee * $count + $comission;
 
-    $balance = Transaction::getAddressBalance($request->address);
+    $balance = Transaction::getAddressBalance($address);
 
     if ($balance < $total_price) {
       return abort(403, "you don't have enough balance");
@@ -27,12 +28,12 @@ class ContractsController extends Controller
     $contract = new Contract();
     $contract->fill(["fee" => $fee, "total_price" => $total_price, "comission" => $comission, "type" => Contract::ADVERTISE]);
     $contract->count = $request->count;
-    $contract->address = $request->address;
+    $contract->address = $address;
     $contract->file_path = Storage::disk("public")->put("/contracts", $request->file("file"));
     $contract->save();
 
     Transaction::create([
-      "address" => $request->address,
+      "address" => $address,
       "amount" => $total_price,
       "date" => time(),
       "type" => Transaction::OUT,

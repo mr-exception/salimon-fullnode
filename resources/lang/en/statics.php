@@ -6,4 +6,13 @@ return [
       2 => "out",
     ],
   ],
+  "contracts" => [
+    "type" => [
+      1 => "advertisement",
+      2 => "link",
+    ],
+    "status" => [
+      1 => "pending",
+    ],
+  ],
 ];

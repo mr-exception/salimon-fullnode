@@ -19,3 +19,11 @@ if (!function_exists("gweiToEth")) {
     return round($value / 1000000000000000000, 12);
   }
 }
+
+if (!function_exists("getAddress")) {
+  function getAddress()
+  {
+    $address = request()->header("x-address");
+    return strtolower($address);
+  }
+}

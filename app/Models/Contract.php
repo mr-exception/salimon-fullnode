@@ -20,7 +20,7 @@ class Contract extends Model
 
   public function getStatusStrAttribute()
   {
-    return __("statics.contracts.status." . $this->state);
+    return __("statics.contracts.status." . $this->status);
   }
 
   public const ADVERTISE = 1;

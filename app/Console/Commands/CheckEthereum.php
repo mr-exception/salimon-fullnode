@@ -40,6 +40,7 @@ class CheckEthereum extends Command
    */
   public function handle()
   {
+    $host_address = strtolower(env("ETH_ADDRESS"));
     $max_fetch = env("FETCH_PER_UPDATE");
     $last_block = env("LAST_BLOCK_NUMBER");
 
@@ -52,7 +53,7 @@ class CheckEthereum extends Command
       $block = Ethereum::eth_getBlockByNumber($current_block);
       $transactions = $block->transactions;
       foreach ($transactions as $transaction) {
-        if (strtolower($transaction->to) === strtolower(env("ETH_ADDRESS"))) {
+        if (strtolower($transaction->to) === $host_address) {
           $record = new Transaction();
           $record->address = $transaction->from;
           $record->date = time();
@@ -72,7 +73,7 @@ class CheckEthereum extends Command
           $block = Ethereum::eth_getBlockByNumber($last_block + $i + 1);
           $transactions = $block->transactions;
           foreach ($transactions as $transaction) {
-            if (strtolower($transaction->to) === strtolower(env("ETH_ADDRESS"))) {
+            if (strtolower($transaction->to) === $host_address) {
               $record = new Transaction();
               $record->address = $transaction->from;
               $record->date = time();

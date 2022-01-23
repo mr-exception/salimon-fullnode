@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\CheckSubscription;
+use App\Http\Middleware\SecretAuth;
 use App\Http\Middleware\StrToLower;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -67,5 +68,6 @@ class Kernel extends HttpKernel
     "verified" => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
     "checkSubscription" => CheckSubscription::class,
     "strToLower" => StrToLower::class,
+    "secretAuth" => SecretAuth::class,
   ];
 }
