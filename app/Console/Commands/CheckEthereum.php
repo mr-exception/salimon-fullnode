@@ -6,7 +6,6 @@ use App\Models\Transaction;
 use Exception;
 use Illuminate\Console\Command;
 use Jcsofts\LaravelEthereum\Facade\Ethereum;
-use Jcsofts\LaravelEthereum\Lib\EthereumTransaction;
 
 class CheckEthereum extends Command
 {

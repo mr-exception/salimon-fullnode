@@ -22,6 +22,12 @@ Route::get("/", function () {
 
 Route::middleware("strToLower")->group(function () {
   Route::get("/balance/{address}", [PublicPagesController::class, "balance"])->name("balance");
+  Route::prefix("/contracts")
+    ->name("contracts.")
+    ->group(function () {
+      Route::get("/list", [PublicPagesController::class, "contractsList"])->name("list");
+      Route::get("/{contract}", [PublicPagesController::class, "contractDetails"])->name("details");
+    });
 });
 Route::middleware("auth")->group(function () {
   Route::prefix("/configs")

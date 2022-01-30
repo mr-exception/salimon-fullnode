@@ -18,8 +18,8 @@ class ContractsController extends Controller
     $address = getAddress();
     $fee = $request->fee;
     $count = $request->count;
-    $comission = env("CONTRACT_COMISSION");
-    $total_price = $fee * $count + $comission;
+    $commission = env("CONTRACT_COMMISSION");
+    $total_price = $fee * $count + $commission;
 
     $balance = Transaction::getAddressBalance($address);
 
@@ -31,7 +31,7 @@ class ContractsController extends Controller
     $contract->fill([
       "fee" => $fee,
       "total_price" => $total_price,
-      "comission" => $comission,
+      "commission" => $commission,
       "type" => Contract::ADVERTISE,
       "status" => Contract::BROADCASTING,
     ]);
@@ -45,7 +45,7 @@ class ContractsController extends Controller
       "amount" => $total_price,
       "date" => time(),
       "type" => Transaction::OUT,
-      "description" => "contract " . $contract->id,
+      "description" => "contract <a href=\"" . route("contracts.details", $contract) . "\">$contract->id</>",
     ]);
     return ContractResource::make($contract);
   }
@@ -64,11 +64,11 @@ class ContractsController extends Controller
     if ($request->has("max_fee")) {
       $contracts = $contracts->where("fee", "<", $request->max_fee);
     }
-    if ($request->has("min_comission")) {
-      $contracts = $contracts->where("comission", ">", $request->min_comission);
+    if ($request->has("min_commission")) {
+      $contracts = $contracts->where("commission", ">", $request->min_commission);
     }
-    if ($request->has("max_comission")) {
-      $contracts = $contracts->where("comission", "<", $request->max_comission);
+    if ($request->has("max_commission")) {
+      $contracts = $contracts->where("commission", "<", $request->max_commission);
     }
     if ($request->has("min_total_price")) {
       $contracts = $contracts->where("total_price", ">", $request->min_total_price);

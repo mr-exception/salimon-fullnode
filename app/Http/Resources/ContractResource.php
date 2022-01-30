@@ -11,7 +11,7 @@ class ContractResource extends Resource
       "file" => $this->fileUrl(),
       "count" => $this->count,
       "fee" => $this->fee,
-      "comission" => $this->comission,
+      "commission" => $this->commission,
       "total_price" => $this->total_price,
       "type" => $this->type,
       "status" => $this->status,

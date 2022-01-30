@@ -11,15 +11,16 @@ class Contract extends Model
   use HasFactory, UsesUuid;
   protected $primary = "id";
   protected $table = "contracts";
-  protected $fillable = ["address", "price", "file_path", "count", "type", "total_price", "comission", "fee", "status"];
+  protected $fillable = ["address", "price", "file_path", "count", "type", "total_price", "commission", "fee", "status"];
 
   public const PENDING = 1;
   public const PAID = 2;
   public const BROADCASTING = 3;
   public const FINISHED = 4;
 
-  public function scopeActives($query){
-    return $query->where('status', Contract::BROADCASTING);
+  public function scopeActives($query)
+  {
+    return $query->where("status", Contract::BROADCASTING);
   }
 
   public function getStatusStrAttribute()
