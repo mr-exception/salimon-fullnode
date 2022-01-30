@@ -12,13 +12,16 @@ Route::middleware("strToLower")->group(function () {
     ->group(function () {
       Route::get("/fetch", [PacketsController::class, "fetch"])->name("fetch");
       Route::post("/send", [PacketsController::class, "send"])
-        ->middleware("checkSubscription")
+        ->middleware(["checkSubscription", "secretAuth"])
         ->name("send");
     });
   Route::prefix("/subscriptions")
     ->name("subscriptions.")
     ->group(function () {
       Route::get("/balance", [SubscriptionsController::class, "checkWallet"])->name("checkWallet");
+      Route::post("/submit", [SubscriptionsController::class, "submit"])
+        ->name("submit")
+        ->middleware("secretAuth");
     });
 
   Route::prefix("/contracts")
@@ -28,7 +31,9 @@ Route::middleware("strToLower")->group(function () {
         ->name("create")
         ->middleware("secretAuth");
       Route::get("/list", [ContractsController::class, "list"])->name("list");
-      Route::post("/submit-result", [ContractsController::class, "submitResult"])->name("submit_result")->middleware("throttle:1,1");
+      Route::post("/submit-result", [ContractsController::class, "submitResult"])
+        ->name("submit_result")
+        ->middleware("throttle:1,1");
     });
   Route::prefix("/secrets")
     ->name("secrets.")

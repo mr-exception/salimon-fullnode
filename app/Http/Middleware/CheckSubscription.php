@@ -18,7 +18,7 @@ class CheckSubscription
   public function handle(Request $request, Closure $next)
   {
     if (env("PAID_SUBSCRIPTION", false)) {
-      $subscription = Subscription::whereAddress(strtolower($request->src))->first();
+      $subscription = Subscription::whereAddress(getAddress())->first();
       if (!$subscription) {
         return abort(401, "you don't have subscription.");
       }

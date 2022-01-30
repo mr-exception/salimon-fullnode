@@ -3,14 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\SendPacketRequest;
+use App\Http\Resources\PacketResource;
 use App\Models\Packet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Ramsey\Uuid\Uuid;
 
 class PacketsController extends Controller
 {
   public function fetch(Request $request)
   {
-    $packets = Packet::whereNotNull("id");
+    $packets = Packet::where(function ($query) {
+      return $query;
+    });
     if ($request->has("msg_id")) {
       $packets = $packets->where("msg_id", $request->msg_id);
     }
@@ -36,14 +41,17 @@ class PacketsController extends Controller
     $data = Packet::create([
       "msg_id" => $request->msg_id,
       "msg_count" => $request->msg_count,
-      "data" => $request->data,
+      "data_path" => "/fake.data",
       "position" => $request->position,
       "dst" => $request->dst,
-      "src" => $request->src,
+      "src" => getAddress(),
     ]);
+    Storage::disk("public")->put("/packets/$data->id.data", $request->data);
+    $data->data_path = "/packets/$data->id.data";
+    $data->save();
     return [
       "ok" => true,
-      "data" => $data,
+      "data" => PacketResource::make($data),
     ];
   }
 }

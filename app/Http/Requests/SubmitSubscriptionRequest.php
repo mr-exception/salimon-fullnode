@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
-class SendPacketRequest extends FormRequest
+class SubmitSubscriptionRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -24,11 +25,7 @@ class SendPacketRequest extends FormRequest
   public function rules()
   {
     return [
-      "data" => "required|string|max:1024",
-      "dst" => "required|string|max:128",
-      "position" => "required|numeric",
-      "msg_id" => "required|uuid",
-      "msg_count" => "required|numeric",
+      "amount" => "required|numeric|min:1",
     ];
   }
 }
