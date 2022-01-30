@@ -30,6 +30,7 @@
                                 <th>#</th>
                                 <th>Amount</th>
                                 <th>Type</th>
+                                <th>Description</th>
                                 <th>Date</th>
                                 <th>Captured at</th>
                             </tr>
@@ -38,6 +39,7 @@
                                     <td>{{$i+1}}</td>
                                     <td>{{$transaction->amount_str}}</td>
                                     <td>{{$transaction->type_str}}</td>
+                                    <td>{{$transaction->description}}</td>
                                     <td>{{$transaction->formatted_date}}</td>
                                     <td>{{$transaction->created_at}}</td>
                                 <tr>

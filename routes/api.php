@@ -28,6 +28,7 @@ Route::middleware("strToLower")->group(function () {
         ->name("create")
         ->middleware("secretAuth");
       Route::get("/list", [ContractsController::class, "list"])->name("list");
+      Route::post("/submit-result", [ContractsController::class, "submitResult"])->name("submit_result")->middleware("throttle:1,1");
     });
   Route::prefix("/secrets")
     ->name("secrets.")

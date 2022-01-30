@@ -18,6 +18,10 @@ class Contract extends Model
   public const BROADCASTING = 3;
   public const FINISHED = 4;
 
+  public function scopeActives($query){
+    return $query->where('status', Contract::BROADCASTING);
+  }
+
   public function getStatusStrAttribute()
   {
     return __("statics.contracts.status." . $this->status);

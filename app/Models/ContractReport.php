@@ -21,6 +21,7 @@ class ContractReport extends Model
   public const SENT = 1;
   public const VERIFIED = 2;
   public const EXPIRED = 3;
+  public const COLLECTED = 4;
   public function getStatusStrAttribute()
   {
     return __("statics.contract_reports." . $this->status);

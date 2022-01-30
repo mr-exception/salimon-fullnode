@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateContractRequest;
+use App\Http\Requests\SubmitContractResultRequest;
 use App\Http\Resources\ContractResource;
 use App\Models\Contract;
+use App\Models\ContractReport;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,7 +18,7 @@ class ContractsController extends Controller
     $address = getAddress();
     $fee = $request->fee;
     $count = $request->count;
-    $comission = env("CONTRACT_COMMISION");
+    $comission = env("CONTRACT_COMISSION");
     $total_price = $fee * $count + $comission;
 
     $balance = Transaction::getAddressBalance($address);
@@ -26,7 +28,13 @@ class ContractsController extends Controller
     }
 
     $contract = new Contract();
-    $contract->fill(["fee" => $fee, "total_price" => $total_price, "comission" => $comission, "type" => Contract::ADVERTISE]);
+    $contract->fill([
+      "fee" => $fee,
+      "total_price" => $total_price,
+      "comission" => $comission,
+      "type" => Contract::ADVERTISE,
+      "status" => Contract::BROADCASTING,
+    ]);
     $contract->count = $request->count;
     $contract->address = $address;
     $contract->file_path = Storage::disk("public")->put("/contracts", $request->file("file"));
@@ -69,5 +77,22 @@ class ContractsController extends Controller
       $contracts = $contracts->where("total_price", "<", $request->max_total_price);
     }
     return ContractResource::collection($contracts);
+  }
+
+  public function submitResult(SubmitContractResultRequest $request)
+  {
+    $contract = Contract::Actives()
+      ->where("id", $request->contract_id)
+      ->firstOrFail();
+    $report = ContractReport::create([
+      "contract_id" => $contract->id,
+      "address" => getAddress(),
+      "share" => $contract->fee,
+      "status" => ContractReport::VERIFIED,
+    ]);
+    return [
+      "ok" => true,
+      "ref" => $report->id,
+    ];
   }
 }
