@@ -11,5 +11,5 @@ class Subscription extends Model
   use HasFactory, UsesUuid;
   protected $primary = "id";
   protected $table = "subscriptions";
-  protected $fillable = ["address", "end"];
+  protected $fillable = ["address", "amount"];
 }

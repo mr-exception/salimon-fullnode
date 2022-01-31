@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Contract;
 use App\Models\ContractReport;
 use App\Models\Packet;
+use App\Models\Subscription;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -15,9 +16,15 @@ class PublicPagesController extends Controller
     $address = strtolower($address);
     $balance = Transaction::getAddressBalance($address);
     $transactions = Transaction::where("address", $address);
+    $subscription = Subscription::where("address", $address)->first();
+    $packet_balance = 0;
+    if ($subscription) {
+      $packet_balance = $subscription->amount;
+    }
     return view("balance", [
       "address" => $address,
       "balance" => $balance,
+      "packet_balance" => $packet_balance,
       "transactions" => $transactions
         ->orderBy("date", "desc")
         ->offset(($request->input("page", 1) - 1) * 10)

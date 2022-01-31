@@ -22,7 +22,7 @@ class CheckSubscription
       if (!$subscription) {
         return abort(401, "you don't have subscription.");
       }
-      if ($subscription->end < time()) {
+      if ($subscription->amount === 0) {
         return abort(401, "your subscription is finished.");
       }
     }

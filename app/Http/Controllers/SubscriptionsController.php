@@ -22,14 +22,10 @@ class SubscriptionsController extends Controller
     if (!$subscription) {
       $subscription = Subscription::create([
         "address" => getAddress(),
-        "end" => time() + $amount * 3600,
+        "amount" => $amount * 1000000,
       ]);
     } else {
-      if ($subscription->end < time()) {
-        $subscription->end = time() + $amount * 3600;
-      } else {
-        $subscription->end += $amount * 3600;
-      }
+      $subscription->amount += $amount * 1000000;
       $subscription->save();
     }
     $transaction = Transaction::create([
@@ -37,7 +33,7 @@ class SubscriptionsController extends Controller
       "amount" => $price,
       "type" => Transaction::OUT,
       "date" => time(),
-      "description" => "subscription for $amount hours",
+      "description" => "subscription for $amount million packets",
     ]);
     return ["ok" => "true", "transaction_ref" => $transaction->id];
   }

@@ -15,6 +15,9 @@
                     <div class="col-md-12">
                         Balance: {{gweiToEth($balance)}} ETH <small>({{$balance}} gwei)</small>
                     </div>
+                    <div class="col-md-12">
+                        Packet Balance: {{$packet_balance}} packets
+                    </div>
                 </div>
             </div>
         </div>

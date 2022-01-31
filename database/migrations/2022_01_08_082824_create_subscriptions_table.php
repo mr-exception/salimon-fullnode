@@ -16,7 +16,7 @@ class CreateSubscriptionsTable extends Migration
     Schema::create("subscriptions", function (Blueprint $table) {
       $table->uuid("id")->primary();
       $table->string("address", 64)->index();
-      $table->unsignedInteger("end")->default(0);
+      $table->unsignedBigInteger("amount")->default(0);
       $table->timestamps();
     });
   }
