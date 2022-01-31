@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Contract extends Model
 {
@@ -43,6 +44,6 @@ class Contract extends Model
 
   public function fileUrl()
   {
-    return url($this->file_path);
+    return Storage::disk("public")->url($this->file_path);
   }
 }

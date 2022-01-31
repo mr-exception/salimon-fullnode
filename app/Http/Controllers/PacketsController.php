@@ -35,7 +35,7 @@ class PacketsController extends Controller
     if ($request->has("date_to")) {
       $packets = $packets->where("created_at", ">", $request->date_to);
     }
-    return $packets->paginate($request->input("pageSize", 10));
+    return PacketResource::collection($packets);
   }
   public function send(SendPacketRequest $request)
   {

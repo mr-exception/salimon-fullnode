@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\UsesUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Packet extends Model
 {
@@ -15,6 +16,6 @@ class Packet extends Model
 
   public function dataUrl()
   {
-    return url($this->data_path);
+    return Storage::disk("public")->url($this->data_path);
   }
 }
