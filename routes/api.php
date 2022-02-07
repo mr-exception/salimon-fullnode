@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ContractsController;
 use App\Http\Controllers\PacketsController;
 use App\Http\Controllers\SecretsController;
@@ -50,5 +51,10 @@ Route::middleware("strToLower")->group(function () {
       Route::post("/create", [SecretsController::class, "create"])->name("create");
       Route::post("/update", [SecretsController::class, "update"])->name("update");
       Route::post("/destroy", [SecretsController::class, "destroy"])->name("destroy");
+    });
+  Route::prefix("/addresses")
+    ->name("addresses.")
+    ->group(function () {
+      Route::get("/check-list", [AddressController::class, "checkAddressList"])->name("checkAddressList");
     });
 });
