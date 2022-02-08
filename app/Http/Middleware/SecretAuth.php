@@ -17,8 +17,8 @@ class SecretAuth
    */
   public function handle(Request $request, Closure $next)
   {
-    if (!$request->hasHeader("x-signature")) {
-      return abort(401, "invalid signature key");
+    if (!$request->hasHeader("x-secret")) {
+      return abort(401, "invalid secret key");
     }
     if (!$request->hasHeader("x-address")) {
       return abort(401, "invalid address");
@@ -26,7 +26,7 @@ class SecretAuth
     $address = getAddress();
     if (
       !Signature::where("address", $address)
-        ->where("secret", md5($request->header("x-signature")))
+        ->where("secret", md5($request->header("x-secret")))
         ->first()
     ) {
       return abort(401, "invalid auth headers");
