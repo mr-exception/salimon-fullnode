@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\SecretKey;
+use App\Models\Signature;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -17,16 +17,16 @@ class SecretAuth
    */
   public function handle(Request $request, Closure $next)
   {
-    if (!$request->hasHeader("x-secret")) {
-      return abort(401, "invalid secret key");
+    if (!$request->hasHeader("x-signature")) {
+      return abort(401, "invalid signature key");
     }
     if (!$request->hasHeader("x-address")) {
       return abort(401, "invalid address");
     }
     $address = getAddress();
     if (
-      !SecretKey::where("address", $address)
-        ->where("secret", md5($request->header("x-secret")))
+      !Signature::where("address", $address)
+        ->where("secret", md5($request->header("x-signature")))
         ->first()
     ) {
       return abort(401, "invalid auth headers");

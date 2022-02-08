@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateSecretKeyRequest extends FormRequest
+class UpdateSignatureRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -25,7 +25,9 @@ class CreateSecretKeyRequest extends FormRequest
   {
     return [
       "address" => "required|string|max:64",
-      "secret" => "required|string",
+      "current_signature" => "required|string",
+      "new_signature" => "required|string",
+      "public_key" => "required|string|max:512",
     ];
   }
 }

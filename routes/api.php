@@ -45,8 +45,8 @@ Route::middleware("strToLower")->group(function () {
         ->name("submit_result")
         ->middleware("throttle:1,1");
     });
-  Route::prefix("/secrets")
-    ->name("secrets.")
+  Route::prefix("/signatures")
+    ->name("signatures.")
     ->group(function () {
       Route::post("/create", [SecretsController::class, "create"])->name("create");
       Route::post("/update", [SecretsController::class, "update"])->name("update");

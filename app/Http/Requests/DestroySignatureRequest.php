@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class DestroySecretKeyRequest extends FormRequest
+class DestroySignatureRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class DestroySecretKeyRequest extends FormRequest
   {
     return [
       "address" => "required|string|max:64",
-      "secret" => "required|string",
+      "signature" => "required|string",
     ];
   }
 }

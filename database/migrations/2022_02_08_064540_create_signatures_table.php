@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSecretKeysTable extends Migration
+class CreateSignaturesTable extends Migration
 {
   /**
    * Run the migrations.
@@ -13,10 +13,11 @@ class CreateSecretKeysTable extends Migration
    */
   public function up()
   {
-    Schema::create("secret_keys", function (Blueprint $table) {
+    Schema::create("signatures", function (Blueprint $table) {
       $table->uuid("id")->primary();
       $table->string("address", 64)->index();
-      $table->string("secret", 32);
+      $table->string("signature", 32);
+      $table->string("public_key", 512);
       $table->timestamps();
     });
   }
@@ -28,6 +29,6 @@ class CreateSecretKeysTable extends Migration
    */
   public function down()
   {
-    Schema::dropIfExists("secret_keys");
+    Schema::dropIfExists("signatures");
   }
 }
