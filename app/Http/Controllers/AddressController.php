@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CheckAddressListRequest;
-use App\Models\SecretKey;
+use App\Models\Signature;
 
 class AddressController extends Controller
 {
@@ -11,7 +11,12 @@ class AddressController extends Controller
   {
     $address_list = [];
     foreach ($request->addresses as $address) {
-      $address_list[strtolower($address)] = SecretKey::where("address", strtolower($address))->first() !== null;
+      $signaure = Signature::where("address", strtolower($address))->first();
+      if ($signaure) {
+        $address_list[strtolower($address)] = [
+          "public_key" => $signaure->public_key,
+        ];
+      }
     }
     return $address_list;
   }

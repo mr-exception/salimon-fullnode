@@ -3,7 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ContractsController;
 use App\Http\Controllers\PacketsController;
-use App\Http\Controllers\SecretsController;
+use App\Http\Controllers\SignaturesController;
 use App\Http\Controllers\SubscriptionsController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,9 +48,9 @@ Route::middleware("strToLower")->group(function () {
   Route::prefix("/signatures")
     ->name("signatures.")
     ->group(function () {
-      Route::post("/create", [SecretsController::class, "create"])->name("create");
-      Route::post("/update", [SecretsController::class, "update"])->name("update");
-      Route::post("/destroy", [SecretsController::class, "destroy"])->name("destroy");
+      Route::post("/create", [SignaturesController::class, "create"])->name("create");
+      Route::post("/update", [SignaturesController::class, "update"])->name("update");
+      Route::post("/destroy", [SignaturesController::class, "destroy"])->name("destroy");
     });
   Route::prefix("/addresses")
     ->name("addresses.")

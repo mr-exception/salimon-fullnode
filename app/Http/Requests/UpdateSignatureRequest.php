@@ -25,8 +25,8 @@ class UpdateSignatureRequest extends FormRequest
   {
     return [
       "address" => "required|string|max:64",
-      "current_signature" => "required|string",
-      "new_signature" => "required|string",
+      "current_secret" => "required|string",
+      "new_secret" => "required|string",
       "public_key" => "required|string|max:512",
     ];
   }

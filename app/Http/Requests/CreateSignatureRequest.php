@@ -25,7 +25,7 @@ class CreateSignatureRequest extends FormRequest
   {
     return [
       "address" => "required|string|max:64",
-      "signature" => "required|string",
+      "secret" => "required|string",
       "public_key" => "required|string|max:512",
     ];
   }

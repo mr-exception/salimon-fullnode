@@ -18,7 +18,7 @@ class SignaturesController extends Controller
 
     Signature::create([
       "address" => $request->address,
-      "signature" => md5($request->signature),
+      "secret" => md5($request->secret),
       "public_key" => $request->public_key,
     ]);
 
@@ -30,13 +30,13 @@ class SignaturesController extends Controller
   public function update(UpdateSignatureRequest $request)
   {
     $signature = Signature::where("address", $request->address)
-      ->where("signature", md5($request->current_signature))
+      ->where("secret", md5($request->current_secret))
       ->first();
     if (!$signature) {
       return abort(401, "signature key not found");
     }
 
-    $signature->signature = md5($request->new_signature);
+    $signature->secret = md5($request->new_secret);
     $signature->public_key = $request->publick_key;
     $signature->save();
 
@@ -47,7 +47,7 @@ class SignaturesController extends Controller
   public function destroy(DestroySignatureRequest $request)
   {
     $signature = Signature::where("address", $request->address)
-      ->where("signature", md5($request->signature))
+      ->where("secret", md5($request->secret))
       ->first();
     if (!$signature) {
       return abort(401, "signature key not found");

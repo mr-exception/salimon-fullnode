@@ -16,7 +16,7 @@ class CreateSignaturesTable extends Migration
     Schema::create("signatures", function (Blueprint $table) {
       $table->uuid("id")->primary();
       $table->string("address", 64)->index();
-      $table->string("signature", 32);
+      $table->string("secret", 32);
       $table->string("public_key", 512);
       $table->timestamps();
     });
