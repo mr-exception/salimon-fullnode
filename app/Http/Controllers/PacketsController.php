@@ -29,6 +29,11 @@ class PacketsController extends Controller
     if ($request->has("src")) {
       $packets = $packets->where("src", $request->src);
     }
+    if ($request->has("thread")) {
+      $packets = $packets->where(function ($query) use ($request) {
+        return $query->where("src", $request->thread)->orWhere("dst", $request->thread);
+      });
+    }
     if ($request->has("date_from")) {
       $packets = $packets->where("created_at", ">", $request->date_from);
     }
