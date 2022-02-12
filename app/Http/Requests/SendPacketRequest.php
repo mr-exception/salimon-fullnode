@@ -24,7 +24,7 @@ class SendPacketRequest extends FormRequest
   public function rules()
   {
     return [
-      "data" => "required|string|max:1024",
+      "data" => "required|string|max:2048",
       "dst" => "required|string|max:128",
       "position" => "required|numeric",
       "msg_id" => "required|uuid",
