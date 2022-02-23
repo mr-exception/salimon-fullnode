@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SendPacketRequest;
+use App\Http\Requests\Packets\SendRequest;
 use App\Http\Resources\PacketResource;
 use App\Models\Packet;
-use App\Models\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Ramsey\Uuid\Uuid;
 
 class PacketsController extends Controller
 {
@@ -42,13 +40,14 @@ class PacketsController extends Controller
     }
     return PacketResource::collection($packets);
   }
-  public function send(SendPacketRequest $request)
+  public function send(SendRequest $request)
   {
     $data = Packet::create([
       "msg_id" => $request->msg_id,
       "msg_count" => $request->msg_count,
       "data_path" => "/fake.data",
       "position" => $request->position,
+      "type" => $request->type,
       "dst" => $request->dst,
       "src" => getAddress(),
     ]);

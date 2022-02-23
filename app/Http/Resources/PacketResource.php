@@ -11,6 +11,7 @@ class PacketResource extends Resource
       "src" => $this->src,
       "dst" => $this->dst,
       "data" => $this->dataUrl(),
+      "type" => $this->type,
       "msg_id" => $this->msg_id,
       "msg_count" => $this->msg_count,
       "position" => $this->position,

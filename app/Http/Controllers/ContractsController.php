@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateContractRequest;
-use App\Http\Requests\SubmitContractResultRequest;
+use App\Http\Requests\Contracts\CreateRequest;
+use App\Http\Requests\Contracts\SubmitResultRequest;
 use App\Http\Resources\ContractResource;
 use App\Models\Contract;
 use App\Models\ContractReport;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ContractsController extends Controller
 {
-  public function create(CreateContractRequest $request)
+  public function create(CreateRequest $request)
   {
     $address = getAddress();
     $fee = $request->fee;
@@ -79,7 +79,7 @@ class ContractsController extends Controller
     return ContractResource::collection($contracts);
   }
 
-  public function submitResult(SubmitContractResultRequest $request)
+  public function submitResult(SubmitResultRequest $request)
   {
     $contract = Contract::Actives()
       ->where("id", $request->contract_id)

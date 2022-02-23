@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateSignatureRequest;
-use App\Http\Requests\DestroySignatureRequest;
-use App\Http\Requests\UpdateSignatureRequest;
+use App\Http\Requests\Signatures\CreateRequest;
+use App\Http\Requests\Signatures\DestroyRequest;
+use App\Http\Requests\Signatures\UpdateRequest;
 use App\Models\Signature;
 
 class SignaturesController extends Controller
 {
-  public function create(CreateSignatureRequest $request)
+  public function create(CreateRequest $request)
   {
     $signature = Signature::where("address", $request->address)->first();
     if ($signature) {
@@ -27,7 +27,7 @@ class SignaturesController extends Controller
     ];
   }
 
-  public function update(UpdateSignatureRequest $request)
+  public function update(UpdateRequest $request)
   {
     $signature = Signature::where("address", $request->address)
       ->where("secret", md5($request->current_secret))
@@ -44,7 +44,7 @@ class SignaturesController extends Controller
       "message" => "signature key updated",
     ];
   }
-  public function destroy(DestroySignatureRequest $request)
+  public function destroy(DestroyRequest $request)
   {
     $signature = Signature::where("address", $request->address)
       ->where("secret", md5($request->secret))

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Signatures;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateContractRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class CreateContractRequest extends FormRequest
   public function rules()
   {
     return [
-      "file" => "required|file|max:1000",
-      "fee" => "required|numeric|min:1000",
-      "count" => "required|numeric|min:1|max:4000000000",
+      "address" => "required|string|max:64",
+      "secret" => "required|string",
+      "public_key" => "required|string|max:512",
     ];
   }
 }

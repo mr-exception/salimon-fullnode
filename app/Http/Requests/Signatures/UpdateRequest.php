@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Signatures;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SendPacketRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
   /**
    * Determine if the user is authorized to make this request.
@@ -24,11 +24,10 @@ class SendPacketRequest extends FormRequest
   public function rules()
   {
     return [
-      "data" => "required|string|max:2048",
-      "dst" => "required|string|max:128",
-      "position" => "required|numeric",
-      "msg_id" => "required|uuid",
-      "msg_count" => "required|numeric",
+      "address" => "required|string|max:64",
+      "current_secret" => "required|string",
+      "new_secret" => "required|string",
+      "public_key" => "required|string|max:512",
     ];
   }
 }

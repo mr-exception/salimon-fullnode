@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ChannelsController;
 use App\Http\Controllers\ContractsController;
 use App\Http\Controllers\PacketsController;
 use App\Http\Controllers\SignaturesController;
@@ -48,5 +49,12 @@ Route::middleware("strToLower")->group(function () {
     ->name("addresses.")
     ->group(function () {
       Route::get("/check-list", [AddressController::class, "checkAddressList"])->name("checkAddressList");
+    });
+  Route::prefix("/channels")
+    ->name("channels.")
+    ->group(function () {
+      Route::get("/list", [ChannelsController::class, "list"])->name("list");
+      Route::post("/register", [ChannelsController::class, "register"])->name("register");
+      Route::delete("/unregister/{universal_id}/{member}", [ChannelsController::class, "unregister"])->name("unregister");
     });
 });

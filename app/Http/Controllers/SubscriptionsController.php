@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SubmitSubscriptionRequest;
+use App\Http\Requests\Subscriptions\SubmitRequest;
 use App\Models\Subscription;
 use App\Models\Transaction;
 
 class SubscriptionsController extends Controller
 {
-  public function submit(SubmitSubscriptionRequest $request)
+  public function submit(SubmitRequest $request)
   {
     $amount = $request->amount;
     $price = $amount * env("SUBSCRIPTION_FEE");
