@@ -54,7 +54,11 @@ Route::middleware("strToLower")->group(function () {
     ->name("channels.")
     ->group(function () {
       Route::get("/list", [ChannelsController::class, "list"])->name("list");
-      Route::post("/register", [ChannelsController::class, "register"])->name("register");
-      Route::delete("/unregister/{universal_id}/{member}", [ChannelsController::class, "unregister"])->name("unregister");
+      Route::post("/register", [ChannelsController::class, "register"])
+        ->name("register")
+        ->middleware("secretAuth");
+      Route::delete("/unregister/{universal_id}/{member}", [ChannelsController::class, "unregister"])
+        ->name("unregister")
+        ->middleware("secretAuth");
     });
 });

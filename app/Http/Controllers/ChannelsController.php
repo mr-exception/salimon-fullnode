@@ -11,9 +11,16 @@ class ChannelsController extends Controller
 {
   public function register(RegisterRequest $request)
   {
-    $channel = new Channel();
+    $channel = Channel::where($request->only("universal_id", "member"))->first();
+    if (!$channel) {
+      $channel = new Channel();
+      $channel->creator = getAddress();
+    } else {
+      if ($channel->creator !== getAddress()) {
+        return abort(403);
+      }
+    }
     $channel->fill($request->only("universal_id", "key", "member"));
-    $channel->creator = getAddress();
     $channel->save();
     return ["ok" => true];
   }
