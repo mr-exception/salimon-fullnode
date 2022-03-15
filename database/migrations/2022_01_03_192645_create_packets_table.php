@@ -21,7 +21,6 @@ class CreatePacketsTable extends Migration
       $table->string("data_path", 128);
       $table->string("src", 64)->index();
       $table->string("dst", 64)->index();
-      $table->unsignedSmallInteger("type");
       $table->timestamps();
     });
   }

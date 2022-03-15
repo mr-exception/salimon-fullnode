@@ -29,7 +29,6 @@ class SendRequest extends FormRequest
       "position" => "required|numeric",
       "msg_id" => "required|uuid",
       "msg_count" => "required|numeric",
-      "type" => "required|numeric",
     ];
   }
 }

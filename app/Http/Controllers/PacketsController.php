@@ -47,7 +47,6 @@ class PacketsController extends Controller
       "msg_count" => $request->msg_count,
       "data_path" => "/fake.data",
       "position" => $request->position,
-      "type" => $request->type,
       "dst" => $request->dst,
       "src" => getAddress(),
     ]);

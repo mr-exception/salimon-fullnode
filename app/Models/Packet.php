@@ -12,14 +12,14 @@ class Packet extends Model
   use HasFactory, UsesUuid;
   protected $primary = "id";
   protected $table = "packets";
-  protected $fillable = ["data_path", "src", "dst", "msg_id", "msg_count", "position", "type"];
+  protected $fillable = ["data_path", "src", "dst", "msg_id", "msg_count", "position"];
 
   public function dataUrl()
   {
     return Storage::disk("public")->url($this->data_path);
   }
-
-  // packet types
-  public const DIRECT = 1;
-  public const CHANNEL = 2;
+  public function data()
+  {
+    return Storage::disk("public")->get($this->data_path);
+  }
 }
