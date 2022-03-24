@@ -9,7 +9,7 @@ class ChannelResource extends Resource
     $data = [
       "universal_id" => $this->universal_id,
       "creator" => $this->creator,
-      "member" => $this->member,
+      "members" => $this->members(),
       "key" => $this->key,
     ];
     return $this->withDates($data);
